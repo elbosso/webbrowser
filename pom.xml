@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.elbosso</groupId>
+    <artifactId>webbrowser</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>Tech demo and prototype for what i would call a safe browser thats kinda UN*X inspired: Todays
+    browsers all forgot "You hab one job!"</name>
+    <url>http://maven.apache.org</url>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.5.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+    <properties>
+        <project.custom.encoding>UTF-8</project.custom.encoding>
+        <project.custom.java.version>1.6</project.custom.java.version>
+        <maven.compiler.source>${project.custom.java.version}</maven.compiler.source>
+        <maven.compiler.target>${project.custom.java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>${project.custom.encoding}</project.build.sourceEncoding>
+        <project.build.outputEncoding>${project.custom.encoding}</project.build.outputEncoding>
+        <project.reporting.outputEncoding>${project.custom.encoding}</project.reporting.outputEncoding>
+    </properties>
+    <repositories>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+            <id>YourId</id>
+            <name>YourName</name>
+            <url>http://elbosso.github.io/maven2</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>http://repo1.maven.org/maven2</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+		<!--BeanShell-->
+		<repository>
+		  <id>Boundless Repository</id>
+		  <url>	http://repo.boundlessgeo.com/main/</url>
+		</repository>
+    </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>de.elbosso</groupId>
+            <artifactId>util</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+    </dependencies>
+</project>
