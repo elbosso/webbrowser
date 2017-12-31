@@ -45,12 +45,12 @@ import java.sql.SQLException;
  *
  * @author elbosso
  */
-public class AdBlockProxyWorkerFactoryDB extends Object implements ProxyWorkerFactory
+public class AdBlockProxyWorkerFactoryDB extends Object implements de.elbosso.util.net.proxy.ProxyWorkerFactory
 ,AdBlockProxyWorkerFactoryDBMBean
 {
 	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerFactoryDB.class);
-	private final Context context;
-	private AdBlockWorkerStatistics adBlockWorkerStatistics;
+	private final de.elbosso.util.net.proxy.Context context;
+	private de.elbosso.util.net.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics;
 	private final Object listMonitor;
 	private final java.sql.Connection dbConnection;
 	private final java.sql.PreparedStatement checkServerWhitelistStmt;
@@ -68,10 +68,10 @@ public class AdBlockProxyWorkerFactoryDB extends Object implements ProxyWorkerFa
 
 	public AdBlockProxyWorkerFactoryDB() throws SQLException
 	{
-		this(new Context());
+		this(new de.elbosso.util.net.proxy.Context());
 	}
 
-	public AdBlockProxyWorkerFactoryDB(Context context) throws SQLException
+	public AdBlockProxyWorkerFactoryDB(de.elbosso.util.net.proxy.Context context) throws SQLException
 	{
 		super();
 		this.context = context;
@@ -100,19 +100,19 @@ public class AdBlockProxyWorkerFactoryDB extends Object implements ProxyWorkerFa
 		countDomainBlacklistStmt = dbConnection.prepareStatement(AdBlockProxyWorkerDB.countDomainBlacklistSql);
 	}
 
-	public AdBlockWorkerStatistics getStatistics()
+	public de.elbosso.util.net.proxy.AdBlockWorkerStatistics getStatistics()
 	{
 		if (adBlockWorkerStatistics == null)
-			adBlockWorkerStatistics = new AdBlockWorkerStatistics(this);
+			adBlockWorkerStatistics = new de.elbosso.util.net.proxy.AdBlockWorkerStatistics(this);
 		return adBlockWorkerStatistics;
 	}
 
-	public ProxyWorker create(java.net.Socket clientSocket)
+	public de.elbosso.util.net.proxy.ProxyWorker create(java.net.Socket clientSocket)
 	{
-		ProxyWorker rv = null;
+		de.elbosso.util.net.proxy.ProxyWorker rv = null;
 		try
 		{
-			rv = new AdBlockProxyWorkerDB(getStatistics(), dbConnection, clientSocket, context);
+			rv = new de.elbosso.proxy.AdBlockProxyWorkerDB(getStatistics(), dbConnection, clientSocket, context);
 		} catch (SQLException e)
 		{
 			CLASS_LOGGER.fatal(e.getMessage());

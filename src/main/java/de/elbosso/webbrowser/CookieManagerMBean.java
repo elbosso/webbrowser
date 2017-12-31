@@ -1,4 +1,4 @@
-package de.elbosso.tools.misc;
+package de.elbosso.webbrowser;
 /*
 Copyright (c) 2012-2018.
 

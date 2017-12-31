@@ -46,7 +46,7 @@ import java.sql.SQLException;
  *
  * @author elbosso
  */
-public class AdBlockProxyWorkerDB extends ProxyWorker
+public class AdBlockProxyWorkerDB extends de.elbosso.util.net.proxy.ProxyWorker
 {
 	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerDB.class);
 	final static java.lang.String checkServerWhitelistSql="SELECT name from SERVERWHITELIST WHERE NAME LIKE ?";
@@ -61,14 +61,14 @@ public class AdBlockProxyWorkerDB extends ProxyWorker
 	final static java.lang.String countServerBlacklistSql="SELECT COUNT(*) FROM SERVERBLACKLIST";
 	final static java.lang.String countDomainBlacklistSql="SELECT COUNT(*) FROM DOMAINBLACKLIST";
 	private final java.sql.Connection dbConnection;
-	private final AdBlockWorkerStatistics adBlockWorkerStatistics;
+	private final de.elbosso.util.net.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics;
 	private final java.sql.PreparedStatement checkServerWhitelistStmt;
 	private final java.sql.PreparedStatement checkDomainBlacklistStmt;
 	private final java.sql.PreparedStatement checkServerBlacklistStmt;
 	private final java.sql.PreparedStatement insertServerBlacklistStmt;
 	private boolean notWhitelistedMeansBlacklisted=true;
 
-	public AdBlockProxyWorkerDB(AdBlockWorkerStatistics adBlockWorkerStatistics, java.sql.Connection dbConnection, Socket socket, Context context) throws SQLException
+	public AdBlockProxyWorkerDB(de.elbosso.util.net.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics, java.sql.Connection dbConnection, Socket socket, de.elbosso.util.net.proxy.Context context) throws SQLException
 	{
 		super(socket, context);
 		this.adBlockWorkerStatistics=adBlockWorkerStatistics;

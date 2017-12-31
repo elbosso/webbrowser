@@ -1,4 +1,4 @@
-package de.elbosso.tools.misc;
+package de.elbosso.webbrowser;
 /*
 Copyright (c) 2012-2018.
 
@@ -34,8 +34,6 @@ WEG SIE AUCH IMMER DURCH DIE BENUTZUNG DIESER SOFTWARE ENTSTANDEN SIND, SOGAR,
 WENN SIE AUF DIE MOEGLICHKEIT EINES SOLCHEN SCHADENS HINGEWIESEN WORDEN SIND.
 
  */
-
-import de.netsysit.scratch.ui.AbstractAction;
 
 import java.net.HttpCookie;
 import java.net.URI;

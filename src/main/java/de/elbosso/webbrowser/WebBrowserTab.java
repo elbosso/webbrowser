@@ -1,4 +1,4 @@
-package de.elbosso.tools.misc;
+package de.elbosso.webbrowser;
 /*
 Copyright (c) 2012-2018.
 
@@ -72,7 +72,7 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 	private JFXPanel fxPanel;
 	private java.lang.String currentLocation;
 	private javax.swing.JTextField locationtf;
-	private de.elbosso.util.net.proxy.AdBlockProxyWorkerFactoryDB adBlockProxyWorkerFactory;
+	private de.elbosso.proxy.AdBlockProxyWorkerFactoryDB adBlockProxyWorkerFactory;
 	private javafx.scene.web.WebView webView;
 	private final java.util.Stack<java.lang.String> forwardStack;
 	private final java.util.Stack<java.lang.String> backwardStack;
@@ -85,7 +85,7 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 	private javax.swing.JComboBox cookieCb;
 	private javax.swing.JTable adBlockStatusTable;
 
-	WebBrowserTab(de.elbosso.util.net.proxy.AdBlockProxyWorkerFactoryDB adBlockProxyWorkerFactory,CookieManager cm)
+	WebBrowserTab(de.elbosso.proxy.AdBlockProxyWorkerFactoryDB adBlockProxyWorkerFactory,CookieManager cm)
 	{
 		super(new java.awt.BorderLayout());
 		this.adBlockProxyWorkerFactory=adBlockProxyWorkerFactory;

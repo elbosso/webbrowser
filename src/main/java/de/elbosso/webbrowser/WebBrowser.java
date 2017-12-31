@@ -1,4 +1,4 @@
-package de.elbosso.tools.misc;
+package de.elbosso.webbrowser;
 
 /*
 Copyright (c) 2012-2018.
@@ -41,7 +41,6 @@ import javax.management.MBeanRegistrationException;
 import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class WebBrowser extends java.lang.Object implements java.awt.event.WindowListener
@@ -84,18 +83,18 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 		javax.management.MBeanServer mbs = java.lang.management.ManagementFactory.getPlatformMBeanServer();
 		javax.management.ObjectName name = new javax.management.ObjectName(CookieManager.class.getName()+":type=CookieManager");
 		mbs.registerMBean(cm, name);
-		de.netsysit.util.threads.ThreadManager threadManager = new de.netsysit.util.threads.ThreadManager(SimpleProxyServer.class.getName(), -1);
-		name = new javax.management.ObjectName(SimpleProxyServer.class.getName()+":type=ThreadManager");
+		de.netsysit.util.threads.ThreadManager threadManager = new de.netsysit.util.threads.ThreadManager(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName(), -1);
+		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=ThreadManager");
 		mbs.registerMBean(threadManager, name);
 		de.elbosso.util.net.proxy.Context context=new de.elbosso.util.net.proxy.Context(threadManager);
-		name = new javax.management.ObjectName(SimpleProxyServer.class.getName()+":type=SocketPool");
+		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=SocketPool");
 		context.registerMBeanForSocketPool(mbs, name);
 		proxyServer =new de.elbosso.util.net.proxy.SimpleProxyServer(8088,threadManager);
 		abpwf=new de.elbosso.proxy.AdBlockProxyWorkerFactoryDB(context);
-		name = new javax.management.ObjectName(SimpleProxyServer.class.getName()+":type=AdBlockProxyWorkerFactoryDB");
+		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=AdBlockProxyWorkerFactoryDB");
 		mbs.registerMBean(abpwf, name);
 		de.elbosso.util.net.proxy.AdBlockWorkerStatistics stats=abpwf.getStatistics();
-		name = new javax.management.ObjectName(SimpleProxyServer.class.getName()+":type=AdBlockStatistics");
+		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=AdBlockStatistics");
 		mbs.registerMBean(stats, name);
 		threadManager.execute(stats);
 		proxyServer.setProxyWorkerFactory(abpwf);
