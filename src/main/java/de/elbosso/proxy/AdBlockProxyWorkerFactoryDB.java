@@ -50,7 +50,7 @@ public class AdBlockProxyWorkerFactoryDB extends Object implements de.elbosso.ut
 {
 	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerFactoryDB.class);
 	private final de.elbosso.util.net.proxy.Context context;
-	private de.elbosso.util.net.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics;
+	private de.elbosso.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics;
 	private final Object listMonitor;
 	private final java.sql.Connection dbConnection;
 	private final java.sql.PreparedStatement checkServerWhitelistStmt;
@@ -100,10 +100,10 @@ public class AdBlockProxyWorkerFactoryDB extends Object implements de.elbosso.ut
 		countDomainBlacklistStmt = dbConnection.prepareStatement(AdBlockProxyWorkerDB.countDomainBlacklistSql);
 	}
 
-	public de.elbosso.util.net.proxy.AdBlockWorkerStatistics getStatistics()
+	public de.elbosso.proxy.AdBlockWorkerStatistics getStatistics()
 	{
 		if (adBlockWorkerStatistics == null)
-			adBlockWorkerStatistics = new de.elbosso.util.net.proxy.AdBlockWorkerStatistics(this);
+			adBlockWorkerStatistics = new de.elbosso.proxy.AdBlockWorkerStatistics(this);
 		return adBlockWorkerStatistics;
 	}
 

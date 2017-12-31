@@ -7,7 +7,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Tech demo and prototype for what i would call a safe browser thats kinda UN*X inspired: Todays
     browsers all forgot "You hab one job!"</name>
-    <url>http://maven.apache.org</url>
+    <url>http://elbosso.github.io</url>
     <build>
         <pluginManagement>
             <plugins>
@@ -57,6 +57,16 @@
         <dependency>
             <groupId>de.elbosso</groupId>
             <artifactId>util</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.elbosso</groupId>
+            <artifactId>domains</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.elbosso</groupId>
+            <artifactId>model</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
 		<!-- https://mvnrepository.com/artifact/log4j/log4j -->

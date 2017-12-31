@@ -61,14 +61,14 @@ public class AdBlockProxyWorkerDB extends de.elbosso.util.net.proxy.ProxyWorker
 	final static java.lang.String countServerBlacklistSql="SELECT COUNT(*) FROM SERVERBLACKLIST";
 	final static java.lang.String countDomainBlacklistSql="SELECT COUNT(*) FROM DOMAINBLACKLIST";
 	private final java.sql.Connection dbConnection;
-	private final de.elbosso.util.net.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics;
+	private final de.elbosso.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics;
 	private final java.sql.PreparedStatement checkServerWhitelistStmt;
 	private final java.sql.PreparedStatement checkDomainBlacklistStmt;
 	private final java.sql.PreparedStatement checkServerBlacklistStmt;
 	private final java.sql.PreparedStatement insertServerBlacklistStmt;
 	private boolean notWhitelistedMeansBlacklisted=true;
 
-	public AdBlockProxyWorkerDB(de.elbosso.util.net.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics, java.sql.Connection dbConnection, Socket socket, de.elbosso.util.net.proxy.Context context) throws SQLException
+	public AdBlockProxyWorkerDB(de.elbosso.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics, java.sql.Connection dbConnection, Socket socket, de.elbosso.util.net.proxy.Context context) throws SQLException
 	{
 		super(socket, context);
 		this.adBlockWorkerStatistics=adBlockWorkerStatistics;

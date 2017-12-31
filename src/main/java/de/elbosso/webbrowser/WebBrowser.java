@@ -93,7 +93,7 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 		abpwf=new de.elbosso.proxy.AdBlockProxyWorkerFactoryDB(context);
 		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=AdBlockProxyWorkerFactoryDB");
 		mbs.registerMBean(abpwf, name);
-		de.elbosso.util.net.proxy.AdBlockWorkerStatistics stats=abpwf.getStatistics();
+		de.elbosso.proxy.AdBlockWorkerStatistics stats=abpwf.getStatistics();
 		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=AdBlockStatistics");
 		mbs.registerMBean(stats, name);
 		threadManager.execute(stats);
