@@ -48,7 +48,7 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(WebBrowser.class);
 	private javafx.scene.web.WebEngine webEngine;
 	private WebBrowserTab frontTab;
-	private de.elbosso.proxy.AdBlockProxyWorkerFactoryDB abpwf;
+	private de.elbosso.proxy.AdBlockProxyWorkerFactoryBerkeleyDB abpwf;
 	private de.elbosso.util.net.proxy.SimpleProxyServer proxyServer;
 	private javax.swing.JFrame frame;
 	private java.net.CookieManager cm;
@@ -69,13 +69,13 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 		frame.addWindowListener(this);
 	}
 
-	public static void main(String[] args) throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException, SQLException, ClassNotFoundException
+	public static void main(String[] args) throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException, Exception, ClassNotFoundException
 	{
 		de.elbosso.util.Utilities.configureBasicStdoutLogging(org.apache.log4j.Level.TRACE);
 		Class.forName("org.hsqldb.jdbcDriver");
 		new WebBrowser();
 	}
-	WebBrowser() throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException, SQLException
+	WebBrowser() throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException, Exception
 	{
 		cm=new CookieManager();
 		cm.setCookiePolicy(CookiePolicy.ACCEPT_NONE);
@@ -90,8 +90,8 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=SocketPool");
 		context.registerMBeanForSocketPool(mbs, name);
 		proxyServer =new de.elbosso.util.net.proxy.SimpleProxyServer(8088,threadManager);
-		abpwf=new de.elbosso.proxy.AdBlockProxyWorkerFactoryDB(context);
-		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=AdBlockProxyWorkerFactoryDB");
+		abpwf=new de.elbosso.proxy.AdBlockProxyWorkerFactoryBerkeleyDB(context);
+		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=AdBlockProxyWorkerFactoryBerkeleyDB");
 		mbs.registerMBean(abpwf, name);
 		de.elbosso.proxy.AdBlockWorkerStatistics stats=abpwf.getStatistics();
 		name = new javax.management.ObjectName(de.elbosso.util.net.proxy.SimpleProxyServer.class.getName()+":type=AdBlockStatistics");
@@ -126,14 +126,16 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 	@Override
 	public void windowClosing(WindowEvent e)
 	{
-		try
+		//actually happens when proxyServer.stop() is called -
+		//calling it twice provokes Berkeley DB for java to vomit
+/*		try
 		{
 			abpwf.close();
 		} catch (Throwable e1)
 		{
 			de.elbosso.util.Utilities.handleException(CLASS_LOGGER,e1);
 		}
-		proxyServer.stop();
+*/		proxyServer.stop();
 		frame.dispose();
 		frame.setVisible(false);
 		System.exit(0);

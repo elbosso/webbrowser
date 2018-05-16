@@ -43,7 +43,7 @@ import java.net.UnknownHostException;
  *
  * @author elbosso
  */
-public interface AdBlockProxyWorkerFactoryDBMBean
+public interface AdBlockProxyWorkerFactoryBerkeleyDBMBean
 {
 	public void whitelistServer(String host) throws Exception;
 	public void blacklistServer(String host) throws Exception;

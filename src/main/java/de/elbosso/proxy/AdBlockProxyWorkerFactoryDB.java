@@ -45,7 +45,7 @@ import java.sql.SQLException;
  *
  * @author elbosso
  */
-public class AdBlockProxyWorkerFactoryDB extends Object implements de.elbosso.util.net.proxy.ProxyWorkerFactory
+public class AdBlockProxyWorkerFactoryDB extends Object implements AdBlockProxyWorkerFactory
 ,AdBlockProxyWorkerFactoryDBMBean
 {
 	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerFactoryDB.class);

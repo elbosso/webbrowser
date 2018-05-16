@@ -64,7 +64,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 	private java.util.Map<Type,java.util.Set<java.lang.String> > currentContext;
 	private java.util.Map<java.lang.String,TableModel> tableModels;
 	private String currentContextName;
-	private final AdBlockProxyWorkerFactoryDB factory;
+	private final AdBlockProxyWorkerFactory factory;
 	private javax.management.NotificationBroadcasterSupport notificationBroadcasterSupport;
 	private long notificationSequence = 0;
 
@@ -72,7 +72,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 	{
 		this(null);
 	}
-	AdBlockWorkerStatistics(AdBlockProxyWorkerFactoryDB factory)
+	AdBlockWorkerStatistics(AdBlockProxyWorkerFactory factory)
 	{
 		super();
 		this.factory=factory;
@@ -470,7 +470,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 					{
 						factory.blacklistServer(name);
 					}
-					catch(java.sql.SQLException exp)
+					catch(Exception exp)
 					{
 						de.elbosso.util.Utilities.handleException(CLASS_LOGGER,exp);
 					}
@@ -483,7 +483,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 					{
 						factory.whitelistServer(name);
 					}
-					catch(java.sql.SQLException exp)
+					catch(Exception exp)
 					{
 						de.elbosso.util.Utilities.handleException(CLASS_LOGGER,exp);
 					}
