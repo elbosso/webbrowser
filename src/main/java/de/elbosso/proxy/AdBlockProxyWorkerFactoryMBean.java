@@ -43,6 +43,15 @@ import java.net.UnknownHostException;
  *
  * @author elbosso
  */
-public interface AdBlockProxyWorkerFactoryBerkeleyDBMBean extends AdBlockProxyWorkerFactoryMBean
+public interface AdBlockProxyWorkerFactoryMBean
 {
+	public void whitelistServer(String host) throws Exception;
+	public void blacklistServer(String host) throws Exception;
+	public void removeServer(String host) throws Exception;
+	public void blacklistDomain(String domain) throws Exception;
+	public void removeDomain(String domain) throws Exception;
+	public boolean check(String host) throws Exception, UnknownHostException;
+	public int getWhitelistedServerCount() throws Exception;
+	public int getBlacklistedServerCount() throws Exception;
+	public int getBlacklistedDomainCount() throws Exception;
 }
