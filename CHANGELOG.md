@@ -21,6 +21,11 @@ Changelog of Git Changelog Maven plugin.
 
 ### No issue
 
+**added changelog**
+
+
+[dc6a8920849416c](https://github.com/elbosso/webbrowser/commit/dc6a8920849416c) Jürgen Key *2019-08-25 13:51:07*
+
 **Update README.md**
 
 
