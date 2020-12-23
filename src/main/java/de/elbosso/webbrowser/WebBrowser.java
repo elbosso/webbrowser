@@ -99,7 +99,7 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 		threadManager.execute(stats);
 		proxyServer.setProxyWorkerFactory(abpwf);
 		threadManager.execute(proxyServer);
-		de.elbosso.util.net.proxy.ProxySelector.setDefault(new de.elbosso.util.net.proxy.ProxySelector(proxyServer));
+		//de.elbosso.util.net.proxy.ProxySelector.setDefault(new de.elbosso.util.net.proxy.ProxySelector(proxyServer));
 		javax.swing.SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
