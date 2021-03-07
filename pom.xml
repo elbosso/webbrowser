@@ -94,9 +94,20 @@
                 <updatePolicy>always</updatePolicy>
                 <checksumPolicy>fail</checksumPolicy>
             </releases>
-            <id>YourId</id>
-            <name>YourName</name>
+            <id>EL BOSSO - SNAPSHOTS</id>
+            <name>Juergen Key</name>
             <url>https://elbosso.github.io/maven2</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+            <id>EL BOSSO - RELEASES</id>
+            <name>Juergen Key</name>
+            <url>https://elbosso.github.io/maven2-releases</url>
             <layout>default</layout>
         </repository>
         <repository>

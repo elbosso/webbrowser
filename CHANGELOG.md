@@ -21,6 +21,11 @@ Changelog of Git Changelog Maven plugin.
 
 ### No issue
 
+**automated maven release management**
+
+
+[69c796778204d3e](https://github.com/elbosso/webbrowser/commit/69c796778204d3e) Jürgen Key *2020-12-23 09:50:35*
+
 **maven central completely blocks http now**
 
 
