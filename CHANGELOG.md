@@ -3,6 +3,15 @@
 Changelog of Git Changelog Maven plugin.
 
 ## Unreleased
+### No issue
+
+**repository locations fixed**
+
+
+[8e80e16f988ee4a](https://github.com/elbosso/webbrowser/commit/8e80e16f988ee4a) Jürgen Key *2021-03-07 07:30:08*
+
+
+## 1.0.0
 ### GitHub [#1](https://github.com/elbosso/webbrowser/issues/1) Get the persistence done using the Berkeley DB for Java
 
 **fixes #1**
