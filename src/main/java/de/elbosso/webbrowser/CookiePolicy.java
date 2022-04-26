@@ -56,7 +56,7 @@ public interface CookiePolicy extends java.net.CookiePolicy{
 
 	class AcceptAll extends java.lang.Object implements CookiePolicy
 	{
-		private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AcceptAll.class);
+		private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AcceptAll.class);
 		public boolean shouldAccept(URI uri, HttpCookie cookie) {
 			if(CLASS_LOGGER.isTraceEnabled())CLASS_LOGGER.trace("accepting unconditionally "+cookie.getName()+":"+cookie.getValue()+" from "+uri);
 			return true;
@@ -70,7 +70,7 @@ public interface CookiePolicy extends java.net.CookiePolicy{
 	}
 	class AcceptNone extends java.lang.Object implements CookiePolicy
 	{
-		private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AcceptNone.class);
+		private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AcceptNone.class);
 		public boolean shouldAccept(URI uri, HttpCookie cookie) {
 			if(CLASS_LOGGER.isTraceEnabled())CLASS_LOGGER.trace("declining unconditionally "+cookie.getName()+":"+cookie.getValue()+" from "+uri);
 			return false;
@@ -83,7 +83,7 @@ public interface CookiePolicy extends java.net.CookiePolicy{
 	}
 	class AcceptOriginalServer extends java.lang.Object implements CookiePolicy
 	{
-		private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AcceptOriginalServer.class);
+		private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AcceptOriginalServer.class);
 		public boolean shouldAccept(URI uri, HttpCookie cookie) {
 			boolean rv=false;
 			if (uri == null)

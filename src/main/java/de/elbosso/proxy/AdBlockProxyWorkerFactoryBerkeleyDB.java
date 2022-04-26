@@ -41,7 +41,7 @@ import java.net.UnknownHostException;
 public class AdBlockProxyWorkerFactoryBerkeleyDB extends Object implements AdBlockProxyWorkerFactory
 ,AdBlockProxyWorkerFactoryBerkeleyDBMBean
 {
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerFactoryBerkeleyDB.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AdBlockProxyWorkerFactoryBerkeleyDB.class);
 	private final de.elbosso.util.net.proxy.Context context;
 	private AdBlockWorkerStatistics adBlockWorkerStatistics;
 	private final Object listMonitor;
@@ -119,7 +119,7 @@ public class AdBlockProxyWorkerFactoryBerkeleyDB extends Object implements AdBlo
 			rv = new AdBlockProxyWorkerBerkeleyDB(getStatistics(), store, clientSocket, context);
 		} catch (com.sleepycat.je.DatabaseException e)
 		{
-			CLASS_LOGGER.fatal(e.getMessage());
+			CLASS_LOGGER.error(e.getMessage());
 		}
 		return rv;
 	}

@@ -36,6 +36,7 @@ WENN SIE AUF DIE MOEGLICHKEIT EINES SOLCHEN SCHADENS HINGEWIESEN WORDEN SIND.
 
  */
 
+import ch.qos.logback.classic.Level;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.MBeanRegistrationException;
 import javax.management.MalformedObjectNameException;
@@ -45,7 +46,7 @@ import java.sql.SQLException;
 
 public class WebBrowser extends java.lang.Object implements java.awt.event.WindowListener
 {
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(WebBrowser.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(WebBrowser.class);
 	private javafx.scene.web.WebEngine webEngine;
 	private WebBrowserTab frontTab;
 	private de.elbosso.proxy.AdBlockProxyWorkerFactoryBerkeleyDB abpwf;
@@ -71,7 +72,7 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 
 	public static void main(String[] args) throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException, Exception, ClassNotFoundException
 	{
-		de.elbosso.util.Utilities.configureBasicStdoutLogging(org.apache.log4j.Level.TRACE);
+		de.elbosso.util.Utilities.configureBasicStdoutLogging(Level.TRACE);
 		Class.forName("org.hsqldb.jdbcDriver");
 		new WebBrowser();
 	}

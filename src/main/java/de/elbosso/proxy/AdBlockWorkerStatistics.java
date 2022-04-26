@@ -46,12 +46,12 @@ import java.beans.PropertyChangeListener;
  *
  * @author elbosso
  */
-public class AdBlockWorkerStatistics extends java.lang.Object implements Runnable
+public class AdBlockWorkerStatistics extends de.elbosso.util.beans.EventHandlingSupport implements Runnable
 ,AdBlockWorkerStatisticsMBean
 ,de.netsysit.util.beans.PropertyChangeSender
 	,javax.management.NotificationBroadcaster
 {
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockWorkerStatistics.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AdBlockWorkerStatistics.class);
 	private de.netsysit.util.threads.CubbyHole<Capsule> ch;
 	private java.util.Set<java.lang.String> blocked;
 	private java.util.Set<java.lang.String> passedOn;
@@ -59,7 +59,6 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 	private final java.lang.Object blockedMonitor;
 	private final java.lang.Object passedOnMonitor;
 	private final java.lang.Object notInDatabaseMonitor;
-	private java.beans.PropertyChangeSupport pcs;
 	private java.util.Map<java.lang.String, java.util.Map<Type,java.util.Set<java.lang.String> > >contextMap;
 	private java.util.Map<Type,java.util.Set<java.lang.String> > currentContext;
 	private java.util.Map<java.lang.String,TableModel> tableModels;
@@ -83,7 +82,6 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 		blockedMonitor=new java.lang.Object();
 		passedOnMonitor=new java.lang.Object();
 		notInDatabaseMonitor=new java.lang.Object();
-		pcs=new java.beans.PropertyChangeSupport(this);
 		contextMap=new java.util.HashMap();
 		tableModels=new java.util.HashMap();
 		notificationBroadcasterSupport=new javax.management.NotificationBroadcasterSupport();
@@ -163,7 +161,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 		{
 			int old=getBlockedCount();
 			blocked.clear();
-			pcs.firePropertyChange("blockedCount", old, getBlockedCount());
+			send("blockedCount", old, getBlockedCount());
 		}
 	}
 	public void resetPassedOn()
@@ -172,7 +170,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 		{
 			int old=getPassedOnCount();
 			passedOn.clear();
-			pcs.firePropertyChange("passedOnCount", old, getPassedOnCount());
+			send("passedOnCount", old, getPassedOnCount());
 		}
 	}
 	public void resetNotInDatabase()
@@ -181,7 +179,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 		{
 			int old=getNotInDatabaseCount();
 			notInDatabase.clear();
-			pcs.firePropertyChange("notInDatabaseCount", old, getNotInDatabaseCount());
+			send("notInDatabaseCount", old, getNotInDatabaseCount());
 		}
 	}
 	public java.lang.String[] getBlocked()
@@ -228,7 +226,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 							{
 								int old=getBlockedCount();
 								blocked.add(capsule.getContent());
-								pcs.firePropertyChange("blockedCount", old, getBlockedCount());
+								send("blockedCount", old, getBlockedCount());
 							}
 							break;
 						}
@@ -238,7 +236,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 							{
 								int old=getPassedOnCount();
 								passedOn.add(capsule.getContent());
-								pcs.firePropertyChange("passedOnCount", old, getPassedOnCount());
+								send("passedOnCount", old, getPassedOnCount());
 							}
 							break;
 						}
@@ -248,7 +246,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 							{
 								int old=getNotInDatabaseCount();
 								notInDatabase.add(capsule.getContent());
-								pcs.firePropertyChange("notInDatabaseCount", old, getNotInDatabaseCount());
+								send("notInDatabaseCount", old, getNotInDatabaseCount());
 							}
 							break;
 						}
@@ -459,7 +457,7 @@ public class AdBlockWorkerStatistics extends java.lang.Object implements Runnabl
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex)
 		{
 			if (CLASS_LOGGER.isTraceEnabled())
-				CLASS_LOGGER.trace(aValue);
+				CLASS_LOGGER.trace(java.util.Objects.toString(aValue));
 			java.lang.String name=getValueAt(rowIndex,1).toString();
 			openContext(myName);
 			if(((java.lang.Boolean)aValue).booleanValue())

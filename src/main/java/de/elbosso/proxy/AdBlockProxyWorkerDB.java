@@ -48,7 +48,7 @@ import java.sql.SQLException;
  */
 public class AdBlockProxyWorkerDB extends de.elbosso.util.net.proxy.ProxyWorker
 {
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerDB.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AdBlockProxyWorkerDB.class);
 	final static java.lang.String checkServerWhitelistSql="SELECT name from SERVERWHITELIST WHERE NAME LIKE ?";
 	final static java.lang.String checkServerBlacklistSql="SELECT name from SERVERBLACKLIST WHERE NAME LIKE ?";
 	final static java.lang.String checkDomainBlacklistSql="SELECT * from DOMAINBLACKLIST WHERE LOCATE (name,?,0) AND LENGTH(?)-LENGTH(name)-LOCATE (name,?,0) =-1";
@@ -148,7 +148,7 @@ public class AdBlockProxyWorkerDB extends de.elbosso.util.net.proxy.ProxyWorker
 		}
 		catch(java.sql.SQLException sqlex)
 		{
-			if (CLASS_LOGGER.isTraceEnabled()) CLASS_LOGGER.fatal(sqlex.getMessage(),sqlex);
+			if (CLASS_LOGGER.isTraceEnabled()) CLASS_LOGGER.error(sqlex.getMessage(),sqlex);
 		}
 		return rv;
 	}

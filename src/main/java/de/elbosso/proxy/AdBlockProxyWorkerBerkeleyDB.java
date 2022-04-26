@@ -41,7 +41,7 @@ import java.sql.SQLException;
  */
 public class AdBlockProxyWorkerBerkeleyDB extends de.elbosso.util.net.proxy.ProxyWorker
 {
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerBerkeleyDB.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AdBlockProxyWorkerBerkeleyDB.class);
 	private final AdBlockWorkerStatistics adBlockWorkerStatistics;
 	private boolean notWhitelistedMeansBlacklisted=true;
 	private com.sleepycat.persist.EntityStore store;
@@ -135,7 +135,7 @@ public class AdBlockProxyWorkerBerkeleyDB extends de.elbosso.util.net.proxy.Prox
 		}
 		catch(com.sleepycat.je.DatabaseException sqlex)
 		{
-			if (CLASS_LOGGER.isTraceEnabled()) CLASS_LOGGER.fatal(sqlex.getMessage(),sqlex);
+			if (CLASS_LOGGER.isTraceEnabled()) CLASS_LOGGER.error(sqlex.getMessage(),sqlex);
 		}
 		return rv;
 	}

@@ -67,7 +67,7 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 {
     public static final String EVENT_TYPE_CLICK = "click";
 	private final static java.lang.String LOCATIONTFACTIONCMD="LOCATIONTFACTIONCMD";
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(WebBrowserTab.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(WebBrowserTab.class);
 	private static javafx.scene.web.WebEngine webEngine;
 	private JFXPanel fxPanel;
 	private java.lang.String currentLocation;

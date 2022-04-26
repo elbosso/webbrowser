@@ -48,7 +48,7 @@ import java.sql.SQLException;
 public class AdBlockProxyWorkerFactoryDB extends Object implements AdBlockProxyWorkerFactory
 ,AdBlockProxyWorkerFactoryDBMBean
 {
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(AdBlockProxyWorkerFactoryDB.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(AdBlockProxyWorkerFactoryDB.class);
 	private final de.elbosso.util.net.proxy.Context context;
 	private de.elbosso.proxy.AdBlockWorkerStatistics adBlockWorkerStatistics;
 	private final Object listMonitor;
@@ -115,7 +115,7 @@ public class AdBlockProxyWorkerFactoryDB extends Object implements AdBlockProxyW
 			rv = new de.elbosso.proxy.AdBlockProxyWorkerDB(getStatistics(), dbConnection, clientSocket, context);
 		} catch (SQLException e)
 		{
-			CLASS_LOGGER.fatal(e.getMessage());
+			CLASS_LOGGER.error(e.getMessage());
 		}
 		return rv;
 	}

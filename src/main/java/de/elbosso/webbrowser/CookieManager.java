@@ -35,14 +35,12 @@ WENN SIE AUF DIE MOEGLICHKEIT EINES SOLCHEN SCHADENS HINGEWIESEN WORDEN SIND.
 
  */
 
-import org.apache.log4j.Level;
-
 import javax.management.*;
 
 public class CookieManager extends java.net.CookieManager implements javax.management.NotificationBroadcaster
 	,CookieManagerMBean
 {
-	private final static org.apache.log4j.Logger CLASS_LOGGER = org.apache.log4j.Logger.getLogger(CookieManager.class);
+	private final static org.slf4j.Logger CLASS_LOGGER = org.slf4j.LoggerFactory.getLogger(CookieManager.class);
 	private javax.management.NotificationBroadcasterSupport notificationBroadcasterSupport;
 	private long notificationSequence = 0;
 
@@ -112,7 +110,7 @@ public class CookieManager extends java.net.CookieManager implements javax.manag
 						{
 							// Bogus header, make an empty list and log the error
 							cookies = java.util.Collections.emptyList();
-							if (CLASS_LOGGER.isEnabledFor(Level.ERROR))
+							if (CLASS_LOGGER.isErrorEnabled())
 								CLASS_LOGGER.error("Invalid cookie for " + uri + ": " + headerValue);
 						}
 						for (java.net.HttpCookie cookie : cookies)
