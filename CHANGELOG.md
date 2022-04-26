@@ -3,6 +3,14 @@
 Changelog of Git Changelog Maven plugin.
 
 ## Unreleased
+### GitHub #2 
+
+**re #2**
+
+
+[450120589453159](https://github.com/elbosso/webbrowser/commit/450120589453159) Jürgen Key *2022-04-26 04:17:44*
+
+
 ### No issue
 
 **change of repository location for de.elbosso artifacts**
@@ -17,7 +25,7 @@ Changelog of Git Changelog Maven plugin.
 
 
 ## 1.0.0
-### GitHub [#1](https://github.com/elbosso/webbrowser/issues/1) Get the persistence done using the Berkeley DB for Java
+### GitHub #1 
 
 **fixes #1**
 
