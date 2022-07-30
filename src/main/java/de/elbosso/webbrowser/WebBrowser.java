@@ -36,13 +36,12 @@ WENN SIE AUF DIE MOEGLICHKEIT EINES SOLCHEN SCHADENS HINGEWIESEN WORDEN SIND.
 
  */
 
-import ch.qos.logback.classic.Level;
 import javax.management.InstanceAlreadyExistsException;
 import javax.management.MBeanRegistrationException;
 import javax.management.MalformedObjectNameException;
 import javax.management.NotCompliantMBeanException;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
+import org.slf4j.event.Level;
 
 public class WebBrowser extends java.lang.Object implements java.awt.event.WindowListener
 {
