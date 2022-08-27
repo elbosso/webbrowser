@@ -17,7 +17,7 @@ Tech demo and prototype for what I would call a safe browser thats kinda UN*X in
     browsers all forgot "You had ONE job!"
     
 I got inspired by a blogpost that informed me of what probably
-many people know by now: that Mozilla autonatically rolled out an addon,
+many people know by now: that Mozilla automatically rolled out an addon,
 that displayed ads in pages the user visited.
 
 This is unacceptable.
@@ -59,6 +59,8 @@ be a foundation on which new ideas are tested!
 
 However - im always grateful for input - so dont hesitate to 
 leave behind comments or even issues.
+
+The application needs at least **Java version 17** to run and build.
 
 One last word (well - a last line actually): The command for building is
 ```bash
