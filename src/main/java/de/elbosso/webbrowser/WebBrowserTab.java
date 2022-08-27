@@ -273,81 +273,7 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				System.out.println("observable "+observable.getValue()+" "+oldValue+" "+newValue);
-				java.util.List<String> downloadableExtensions = Arrays.asList(".vid",".doc", ".xls", ".zip", ".exe", ".rar", ".pdf", ".jar", ".png", ".jpg", ".gif",".iso");
-				java.lang.String extension=newValue.substring(newValue.lastIndexOf('.') );
-				System.out.println(extension+" "+(downloadableExtensions.contains(extension)));
-				if (downloadableExtensions.contains(extension)) {
-					try
-					{
-						download(new java.net.URI(newValue));
-					}
-					catch(java.lang.Throwable t)
-					{
-						de.elbosso.util.Utilities.handleException(null,t);
-					}
-				}
-				else
-				{
-					if(newValue.startsWith("data:"))
-					{
-						new Thread()
-						{
-							public void run()
-							{
-								try {
-									String value=newValue.substring(5);
-									int index=value.indexOf(',');
-									String encoded=value.substring(index+1);
-									String meta=value.substring(0,index);
-									String[] parts=meta.split(";");
-									System.out.println(parts.length);
-									String mime=parts[0];
-									String charset= Charset.defaultCharset().name();
-									boolean base64=false;
-									if(parts.length>1)
-									{
-										if (parts[1].startsWith("charset="))
-											charset = parts[1].substring("charset=".length());
-										else if (parts[1].equals("base64"))
-											base64 = true;
-									}
-									if(parts.length>2)
-									{
-										if (parts[2].startsWith("charset="))
-											charset = parts[2].substring("charset=".length());
-										else if (parts[2].equals("base64"))
-											base64 = true;
-									}
-									System.out.println(mime);
-									System.out.println(charset);
-									System.out.println(base64);
-									String result = null;
-									if(base64)
-									{
-										Base64.getDecoder().decode(encoded.getBytes(charset));
-									}
-									else
-									{
-										result= URLDecoder.decode(encoded, charset);
-									}
-									System.out.println(result);
-									JFileChooser fc=new JFileChooser();
-									fc.setCurrentDirectory(determineDownloadFolder());
-									fc.showSaveDialog(null);
-									File f=fc.getSelectedFile();
-									if(f!=null)
-									{
-										OutputStream os = new FileOutputStream(f);
-										InputStream is = new ByteArrayInputStream(result.getBytes());
-										doTheActualDownload(is,os,-1,f.getName());
-									}
-								} catch(Exception e) {
-									e.printStackTrace();
-								}
-							}
-						}.start();
-					}
-				}
+
 			}
 		});
 
@@ -614,39 +540,118 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 		}
 		else
 		{
-			java.lang.String old = getCurrentLocation();
-			this.currentLocation = currentLocation;
-			if (old != null)
-			{
-				if (((backwardStack.isEmpty()) || (backwardStack.peek().equals(old) == false)) &&
-						((forwardStack.isEmpty()) || (forwardStack.peek().equals(old) == false)))
-					backwardStack.push(old);
-				updateActionStatus();
-			}
-			if ((this.currentLocation != null) && (this.currentLocation.trim().length() > 0))
-			{
-				java.net.URL url = null;
+			java.util.List<String> downloadableExtensions = Arrays.asList(".vid",".doc", ".xls", ".zip", ".exe", ".rar", ".pdf", ".jar", ".png", ".jpg", ".gif",".iso");
+			java.lang.String extension=currentLocation.substring(currentLocation.lastIndexOf('.') );
+			System.out.println(extension+" "+(downloadableExtensions.contains(extension)));
+			if (downloadableExtensions.contains(extension)) {
+				webView.setDisable(false);
+				webView.requestFocus();
 				try
 				{
-					url = new java.net.URL(this.currentLocation);
-				} catch (java.net.MalformedURLException exp)
-				{
-					try
-					{
-						url = new java.net.URL("http://" + this.currentLocation);
-					} catch (java.net.MalformedURLException innerexp)
-					{
-						de.elbosso.util.Utilities.handleException(CLASS_LOGGER, innerexp);
-					}
+					download(new java.net.URI(currentLocation));
 				}
-				if (url != null)
+				catch(java.lang.Throwable t)
 				{
-					adBlockProxyWorkerFactory.whitelistServer(url.getHost());
-					adBlockStatusTable.setModel(adBlockProxyWorkerFactory.openStatisticContext(url.getHost()));
-					loadPage(url.toString());
+					de.elbosso.util.Utilities.handleException(null,t);
 				}
 			}
-			firePropertyChange("currentLocation", old, getCurrentLocation());
+			else if(currentLocation.startsWith("data:"))
+			{
+				webView.setDisable(false);
+				webView.requestFocus();
+				new Thread()
+				{
+					public void run()
+					{
+						try {
+							String value=currentLocation.substring(5);
+							int index=value.indexOf(',');
+							String encoded=value.substring(index+1);
+							String meta=value.substring(0,index);
+							String[] parts=meta.split(";");
+							System.out.println(parts.length);
+							String mime=parts[0];
+							String charset= Charset.defaultCharset().name();
+							boolean base64=false;
+							if(parts.length>1)
+							{
+								if (parts[1].startsWith("charset="))
+									charset = parts[1].substring("charset=".length());
+								else if (parts[1].equals("base64"))
+									base64 = true;
+							}
+							if(parts.length>2)
+							{
+								if (parts[2].startsWith("charset="))
+									charset = parts[2].substring("charset=".length());
+								else if (parts[2].equals("base64"))
+									base64 = true;
+							}
+							System.out.println(mime);
+							System.out.println(charset);
+							System.out.println(base64);
+							String result = null;
+							if(base64)
+							{
+								Base64.getDecoder().decode(encoded.getBytes(charset));
+							}
+							else
+							{
+								result= URLDecoder.decode(encoded, charset);
+							}
+							System.out.println(result);
+							JFileChooser fc=new JFileChooser();
+							fc.setCurrentDirectory(determineDownloadFolder());
+							fc.showSaveDialog(null);
+							File f=fc.getSelectedFile();
+							if(f!=null)
+							{
+								OutputStream os = new FileOutputStream(f);
+								InputStream is = new ByteArrayInputStream(result.getBytes());
+								doTheActualDownload(is,os,-1,f.getName());
+							}
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}.start();
+			}
+			else
+			{
+				java.lang.String old = getCurrentLocation();
+				this.currentLocation = currentLocation;
+				if (old != null)
+				{
+					if (((backwardStack.isEmpty()) || (backwardStack.peek().equals(old) == false)) &&
+							((forwardStack.isEmpty()) || (forwardStack.peek().equals(old) == false)))
+						backwardStack.push(old);
+					updateActionStatus();
+				}
+				if ((this.currentLocation != null) && (this.currentLocation.trim().length() > 0))
+				{
+					java.net.URL url = null;
+					try
+					{
+						url = new java.net.URL(this.currentLocation);
+					} catch (java.net.MalformedURLException exp)
+					{
+						try
+						{
+							url = new java.net.URL("http://" + this.currentLocation);
+						} catch (java.net.MalformedURLException innerexp)
+						{
+							de.elbosso.util.Utilities.handleException(CLASS_LOGGER, innerexp);
+						}
+					}
+					if (url != null)
+					{
+						adBlockProxyWorkerFactory.whitelistServer(url.getHost());
+						adBlockStatusTable.setModel(adBlockProxyWorkerFactory.openStatisticContext(url.getHost()));
+						loadPage(url.toString());
+					}
+				}
+				firePropertyChange("currentLocation", old, getCurrentLocation());
+			}
 		}
 	}
 

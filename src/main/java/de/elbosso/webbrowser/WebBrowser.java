@@ -72,6 +72,18 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 	public static void main(String[] args) throws MalformedObjectNameException, NotCompliantMBeanException, InstanceAlreadyExistsException, MBeanRegistrationException, Exception, ClassNotFoundException
 	{
 		de.elbosso.util.Utilities.configureBasicStdoutLogging(Level.TRACE);
+		try
+		{
+			java.util.Properties iconFallbacks = new java.util.Properties();
+			java.io.InputStream is=de.netsysit.util.ResourceLoader.getResource("de/elbosso/ressources/data/icon_trans_material.properties").openStream();
+			iconFallbacks.load(is);
+			is.close();
+			de.netsysit.util.ResourceLoader.configure(iconFallbacks);
+		}
+		catch(java.io.IOException ioexp)
+		{
+			ioexp.printStackTrace();
+		}
 		Class.forName("org.hsqldb.jdbcDriver");
 		new WebBrowser();
 	}
