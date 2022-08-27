@@ -60,8 +60,17 @@ import org.w3c.dom.events.EventTarget;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.*;
 import java.net.CookieManager;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.Base64;
 
 public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.ActionListener
 {
@@ -260,6 +269,88 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 
 		// Obtain the webEngine to navigate
 		webEngine = webView.getEngine();
+		webEngine.locationProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				System.out.println("observable "+observable.getValue()+" "+oldValue+" "+newValue);
+				java.util.List<String> downloadableExtensions = Arrays.asList(".vid",".doc", ".xls", ".zip", ".exe", ".rar", ".pdf", ".jar", ".png", ".jpg", ".gif",".iso");
+				java.lang.String extension=newValue.substring(newValue.lastIndexOf('.') );
+				System.out.println(extension+" "+(downloadableExtensions.contains(extension)));
+				if (downloadableExtensions.contains(extension)) {
+					try
+					{
+						download(new java.net.URI(newValue));
+					}
+					catch(java.lang.Throwable t)
+					{
+						de.elbosso.util.Utilities.handleException(null,t);
+					}
+				}
+				else
+				{
+					if(newValue.startsWith("data:"))
+					{
+						new Thread()
+						{
+							public void run()
+							{
+								try {
+									String value=newValue.substring(5);
+									int index=value.indexOf(',');
+									String encoded=value.substring(index+1);
+									String meta=value.substring(0,index);
+									String[] parts=meta.split(";");
+									System.out.println(parts.length);
+									String mime=parts[0];
+									String charset= Charset.defaultCharset().name();
+									boolean base64=false;
+									if(parts.length>1)
+									{
+										if (parts[1].startsWith("charset="))
+											charset = parts[1].substring("charset=".length());
+										else if (parts[1].equals("base64"))
+											base64 = true;
+									}
+									if(parts.length>2)
+									{
+										if (parts[2].startsWith("charset="))
+											charset = parts[2].substring("charset=".length());
+										else if (parts[2].equals("base64"))
+											base64 = true;
+									}
+									System.out.println(mime);
+									System.out.println(charset);
+									System.out.println(base64);
+									String result = null;
+									if(base64)
+									{
+										Base64.getDecoder().decode(encoded.getBytes(charset));
+									}
+									else
+									{
+										result= URLDecoder.decode(encoded, charset);
+									}
+									System.out.println(result);
+									JFileChooser fc=new JFileChooser();
+									fc.setCurrentDirectory(determineDownloadFolder());
+									fc.showSaveDialog(null);
+									File f=fc.getSelectedFile();
+									if(f!=null)
+									{
+										OutputStream os = new FileOutputStream(f);
+										InputStream is = new ByteArrayInputStream(result.getBytes());
+										doTheActualDownload(is,os,-1,f.getName());
+									}
+								} catch(Exception e) {
+									e.printStackTrace();
+								}
+							}
+						}.start();
+					}
+				}
+			}
+		});
+
 		webEngine.setJavaScriptEnabled(false);
 		if (CLASS_LOGGER.isTraceEnabled())
 			CLASS_LOGGER.trace("installing listener");
@@ -361,6 +452,149 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 			}
 		});
 		return (scene);
+	}
+
+	private java.io.File determineDownloadFolder()
+	{
+		File file = new File(System.getProperty("user.home") + "/Download/");
+		java.lang.String xdgConfigDirName=System.getenv("XDG_DOWNLOAD_DIR");
+		if(xdgConfigDirName!=null)
+		{
+			file = new java.io.File(xdgConfigDirName);
+			file.mkdirs();
+		}
+		else
+		{
+			if((file.exists()==false)||(file.isDirectory()==false))
+			{
+				java.io.File f = new File(System.getProperty("user.home") + "/Downloads/");
+				if((f.exists())&&(f.isDirectory()))
+					file=f;
+				else
+					file.mkdirs();
+			}
+		}
+		java.io.File downloadFolder=file;
+		return downloadFolder;
+	}
+	private void download(java.net.URI uri)
+	{
+		java.lang.String newValue=uri.toString();
+		String name=newValue.substring(newValue.lastIndexOf('/')+1);
+		new Thread()
+		{
+			public void run()
+			{
+				try {
+					java.io.File downloadFolder=determineDownloadFolder();
+					File download = new File(downloadFolder,name);
+					if(download.exists()) {
+						de.netsysit.ui.dialog.GeneralPurposeInfoDialog.showInformation(null,"Download already exists!","What you're trying to download already exists ("+name+")");
+//                                Dialogs.create().title("Exists").message("What you're trying to download already exists").showInformation();
+						return;
+					}
+					URL url = uri.toURL();
+					URLConnection urlConnection = url.openConnection();
+					urlConnection.connect();
+					long file_size = urlConnection.getContentLength();
+					if(file_size<0)
+					{
+						final String contentLengthStr=urlConnection.getHeaderField("content-length");
+						if(contentLengthStr!=null)
+							file_size= Long.parseLong(contentLengthStr);
+					}
+					//GeneralPurposeInfoDialog.showInformation(null,"Download","Downloading "+name+"...\n"+nf.format(file_size)+" Bytes");
+					InputStream is=urlConnection.getInputStream();
+					OutputStream os=new FileOutputStream(download);
+					doTheActualDownload(is,os,file_size,name);
+					//de.netsysit.ui.dialog.GeneralPurposeInfoDialog.showInformation(null,"Download","Download is completed your download will be in: " + download.getAbsolutePath());
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+
+	private void doTheActualDownload(InputStream is, OutputStream os,long file_size,java.lang.String name) throws IOException, InterruptedException
+	{
+		NumberFormat nf=new DecimalFormat("#,###");
+		de.elbosso.util.io.StreamCopier stoppable= de.elbosso.util.io.Utilities.prepareCopyBetweenStreams(is,os);
+		Thread t=new Thread(stoppable);
+		t.start();
+		long start=System.currentTimeMillis();
+		de.netsysit.ui.dialog.InfoProgressMonitor infoProgressMonitor= de.netsysit.ui.dialog.InfoProgressMonitor.create(null,"Download",0,name);
+//                        infoProgressMonitor.showDialog();
+		infoProgressMonitor.setCancellable();
+		if(file_size>-1)
+		{
+			infoProgressMonitor.setIndeterminate(false);
+			infoProgressMonitor.setMaximum(100);
+			infoProgressMonitor.setValue(0);
+			infoProgressMonitor.setString("");
+		}
+		else
+			infoProgressMonitor.setIndeterminate(true);
+
+		while(stoppable.isFinished()==false)
+		{
+			if(infoProgressMonitor.isCancelled())
+			{
+				stoppable.stop();
+				break;
+			}
+			long sofar = stoppable.getTotal();
+			long now = System.currentTimeMillis();
+			long seconds = (now - start) / 1000;
+			if(file_size>0)
+			{
+				if (seconds > 0)
+				{
+					long rate = sofar / seconds;
+					int percentage=(int)(sofar*100/file_size);
+					long secondsLeft = (file_size - sofar) / java.lang.Math.max(rate, 1l);
+					System.out.println(percentage+"% "+nf.format(sofar) + "/" + nf.format(file_size) + " - " + nf.format(rate) + "/s, " + nf.format(secondsLeft) + "s left");
+					javax.swing.SwingUtilities.invokeLater(new java.lang.Runnable()
+					{
+						@Override
+						public void run()
+						{
+							infoProgressMonitor.setValue(percentage);
+							infoProgressMonitor.setString(nf.format(rate) + "/s, " + nf.format(secondsLeft) + "s left");
+						}
+					});
+				}
+				if (sofar < file_size)
+				{
+					java.lang.Thread.currentThread().sleep(500);
+				}
+			}
+			else
+			{
+				if (seconds > 0)
+				{
+					long rate = sofar / seconds;
+					System.out.println(nf.format(sofar) + " - " + nf.format(rate) + "/s");
+					javax.swing.SwingUtilities.invokeLater(new java.lang.Runnable()
+					{
+						@Override
+						public void run()
+						{
+							infoProgressMonitor.setString(nf.format(rate) + "/s, " + nf.format(sofar) );
+						}
+					});
+				}
+				java.lang.Thread.currentThread().sleep(100);
+			}
+		}
+		javax.swing.SwingUtilities.invokeLater(new java.lang.Runnable()
+		{
+			@Override
+			public void run()
+			{
+				infoProgressMonitor.setValue(100);
+			}
+		});
+		t.join();
 	}
 
 	public void setCurrentLocation(String currentLocation) throws Exception
