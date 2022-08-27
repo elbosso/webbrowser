@@ -106,7 +106,7 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 	}
 	private void createActions()
 	{
-		forwardAction=new javax.swing.AbstractAction("forward")
+		forwardAction=new javax.swing.AbstractAction(null,de.netsysit.util.ResourceLoader.getIcon("toolbarButtonGraphics/navigation/Forward24.gif"))
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
@@ -121,7 +121,7 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 			}
 		};
 		forwardAction.setEnabled(false);
-		backwardAction=new javax.swing.AbstractAction("backward")
+		backwardAction=new javax.swing.AbstractAction(null,de.netsysit.util.ResourceLoader.getIcon("toolbarButtonGraphics/navigation/Back24.gif"))
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{
@@ -138,7 +138,7 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 			}
 		};
 		backwardAction.setEnabled(false);
-		reloadAction=new javax.swing.AbstractAction("reload")
+		reloadAction=new javax.swing.AbstractAction(null,de.netsysit.util.ResourceLoader.getIcon("toolbarButtonGraphics/general/Refresh24.gif"))
 		{
 			public void actionPerformed(java.awt.event.ActionEvent evt)
 			{

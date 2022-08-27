@@ -78,6 +78,7 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 			java.io.InputStream is=de.netsysit.util.ResourceLoader.getResource("de/elbosso/ressources/data/icon_trans_material.properties").openStream();
 			iconFallbacks.load(is);
 			is.close();
+			iconFallbacks.setProperty("toolbarButtonGraphics/navigation/Back24.gif","png/image/navigate_before/materialicons/48dp/1x/baseline_navigate_before_black_48dp.png");
 			de.netsysit.util.ResourceLoader.configure(iconFallbacks);
 		}
 		catch(java.io.IOException ioexp)
