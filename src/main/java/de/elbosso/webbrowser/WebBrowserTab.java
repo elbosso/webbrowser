@@ -332,9 +332,12 @@ public class WebBrowserTab extends javax.swing.JPanel implements java.awt.event.
 										CLASS_LOGGER.trace("href used: "+href);
 									try
 									{
-										setCurrentLocation(href);
-										ev.preventDefault();
-										ev.stopPropagation();
+										if(href.equals(getCurrentLocation())==false)
+										{
+											setCurrentLocation(href);
+											ev.preventDefault();
+											ev.stopPropagation();
+										}
 									} catch (Exception e)
 									{
 										de.elbosso.util.Utilities.handleException(CLASS_LOGGER, e);

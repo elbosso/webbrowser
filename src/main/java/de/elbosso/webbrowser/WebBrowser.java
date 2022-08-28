@@ -122,6 +122,8 @@ public class WebBrowser extends java.lang.Object implements java.awt.event.Windo
 				{
 					initAndShowGUI();
 					frontTab.setCurrentLocation("http://www.heise.de");
+					//frontTab.setCurrentLocation("https://demo.bpmn.io/");
+					//frontTab.setCurrentLocation("http://dockerhost.docker.lab:8765");
 				} catch (Throwable ex)
 				{
 					de.elbosso.util.Utilities.handleException(CLASS_LOGGER,ex);

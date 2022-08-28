@@ -20,7 +20,8 @@
         <project.build.sourceEncoding>${project.custom.encoding}</project.build.sourceEncoding>
         <project.build.outputEncoding>${project.custom.encoding}</project.build.outputEncoding>
         <project.reporting.outputEncoding>${project.custom.encoding}</project.reporting.outputEncoding>
-       <project.scm.id>elbossos-github</project.scm.id>
+         <project.main.class>de.elbosso.webbrowser.WebBrowser</project.main.class>
+      <project.scm.id>elbossos-github</project.scm.id>
         <elbosso.artifacts.version>2.0.0-SNAPSHOT</elbosso.artifacts.version>
    </properties>
     <build>
@@ -39,7 +40,7 @@
                         <archive>
                             <manifest>
                                 <mainClass>
-                                    de.elbosso.webbrowser.WebBrowser
+                                    ${project.main.class}
                                 </mainClass>
                             </manifest>
                         </archive>
@@ -87,6 +88,26 @@
                     </execution>
                 </executions>
             </plugin-->
+          <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>1.2.1</version>
+              <executions>
+                  <execution>
+                      <goals>
+                          <goal>java</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <configuration>
+                  <mainClass>${project.main.class}</mainClass>
+                  <!--arguments>
+                      <argument>foo</argument>
+                      <argument>bar</argument>
+                  </arguments-->
+              </configuration>
+          </plugin>
+
         </plugins>
     </build>
     <repositories>
